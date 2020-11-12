@@ -93,7 +93,12 @@ Note: you can also enter group information manually, or read it in from an exter
 
 Multidimensional scaling (MDS) plot 
 ```{r}
+par(mfrow=c(1,2))
 plotMDS(d, col = as.numeric(group))
+pc <- prcomp(t(d$counts))
+pr <- (predict(pc))
+plot(pr[,1:2], type="n")
+text(pr[,1:2], rownames(pr),col=as.numeric(group))
 ```
 
 # 3. Voom transformation and calculation of variance weights
@@ -202,7 +207,7 @@ We are specifying that model includes effects for cultivar, time, and the cultiv
 colnames(mm)
 ```
 ```{r}
-y <- voom(d, mm, plot = F)
+y <- voom(d, mm, plot = T)
 fit <- lmFit(y, mm)
 head(coef(fit))
 ```
